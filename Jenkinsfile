@@ -1,5 +1,3 @@
-def mvnCmd = "mvn -s nexusconfigurations/nexus.xml"
-
 pipeline {
     agent any
 
@@ -8,7 +6,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
-                    bat '${mvnCmd} clean compile'
+                    bat 'mvn -s nexusconfigurations/nexus.xml clean compile'
                 }
             }
         }
@@ -17,7 +15,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
-                    bat '${mvnCmd} test'
+                    bat 'mvn -s nexusconfigurations/nexus.xml test'
                 }
             }
         }
@@ -26,7 +24,7 @@ pipeline {
         stage ('Deployment Stage') {
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
-                    bat '${mvnCmd} deploy'
+                    bat 'mvn -s nexusconfigurations/nexus.xml deploy'
                 }
             }
         }
