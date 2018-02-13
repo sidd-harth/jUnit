@@ -1,12 +1,7 @@
 <servers>
   <servers>
      <server>
-        <id>nexus</id>
-        <username>deployment</username>
-        <password>deployment123</password>
-     </server>
-     <server>
-        <id>nexus</id>
+        <id>nexus-snapshot</id>
         <username>admin</username>
         <password>admin123</password>
      </server>
