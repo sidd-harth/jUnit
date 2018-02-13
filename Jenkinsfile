@@ -100,11 +100,14 @@ pipeline {
                 }
             }}
 			
+			
+			
 			stage('Approve to Deploy on Openshift') {
-        timeout(time: 2, unit: 'DAYS') {
-            input message: 'Do you want to Approve?'
-        }
-    }
+					steps {
+					timeout(time: 2, unit: 'DAYS') {
+						input message: 'Do you want to Approve?'
+					}}
+				}
 
 stage ('buildInDevelopment'){
 steps{
