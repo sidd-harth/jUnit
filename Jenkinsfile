@@ -1,12 +1,32 @@
-node('maven') {
-    def app
+pipeline {
+    agent any
 
-    stage('Clone repository') {
-        checkout scm
-    }
+    stages {
+        stage ('Compile Stage') {
 
-    stage('Build image') {
-       sh 'mvn clean package'
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
 
+        stage ('Testing Stage') {
+
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    sh 'mvn deploy'
+                }
+            }
+        }
     }
 }
