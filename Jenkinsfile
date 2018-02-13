@@ -1,7 +1,5 @@
 import groovy.json.JsonSlurper;
-  
-properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'my-gitlab-connection']])
- 
+   
 node{
     stage 'Build, Test and Package'
     env.PATH = "${tool 'maven'}/bin:${env.PATH}"
