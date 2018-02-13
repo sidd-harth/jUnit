@@ -6,7 +6,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
-                    sh 'mvn clean compile'
+                    bat 'mvn clean compile'
                 }
             }
         }
