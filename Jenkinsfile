@@ -108,7 +108,7 @@ pipeline {
 						input message: 'Do you want to Approve?'
 					}}
 				}
-
+/*
 stage ('buildInDevelopment'){
 steps{
 openshiftBuild(namespace: 'jenkinsfdeploy', bldCfg: 'php', showBuildLogs: 'true')}}
@@ -116,7 +116,45 @@ openshiftBuild(namespace: 'jenkinsfdeploy', bldCfg: 'php', showBuildLogs: 'true'
 stage ('deployInDevelopment'){
 steps{
 openshiftDeploy(namespace: 'jenkinsfdeploy', depCfg: 'php')
-openshiftScale(namespace: 'jenkinsfdeploy', depCfg: 'php',replicaCount: '2')}}
+openshiftScale(namespace: 'jenkinsfdeploy', depCfg: 'php',replicaCount: '2')}}*/
+
+
+//testing oc cli
+stage('Create Image Builder') {
+                when {
+                  expression {
+                    openshift.withCluster('https://192.168.99.100:8443, QF03ylfGRGhSR24vxmCU7OXhUVx3k9RAZTnbT4gjncw') {
+                      openshift.withProject('abc') {
+                        return !openshift.selector("bc", "tasks").exists();
+                      }
+                    }
+                  }
+                }
+                steps {
+                  script {
+                    openshift.withCluster('https://192.168.99.100:8443, QF03ylfGRGhSR24vxmCU7OXhUVx3k9RAZTnbT4gjncw') {
+                      openshift.withProject('abc')  {
+                        openshift.newBuild("--name=tasks", "--image-stream=jboss-eap70-openshift:1.5", "--binary=true")
+                      }
+                    }
+                  }
+                }
+              }
+              stage('Build Image') {
+                steps {
+                  sh "rm -rf oc-build && mkdir -p oc-build/deployments"
+                  sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
+                  
+                  script {
+                    openshift.withCluster('https://192.168.99.100:8443, QF03ylfGRGhSR24vxmCU7OXhUVx3k9RAZTnbT4gjncw') {
+                      openshift.withProject('abc')  {
+                        openshift.selector("bc", "tasks").startBuild("--from-dir=oc-build", "--wait=true")
+                      }
+                    }
+                  }
+                }
+              }
+
 
     }
 }
