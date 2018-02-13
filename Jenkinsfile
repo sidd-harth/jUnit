@@ -35,7 +35,9 @@ pipeline {
 
 /*testing in openshift jenkins*/
 pipeline {
-    agent any
+    agent {
+              label 'maven'
+            }
 
     stages {
         stage ('Compile Stage') {
