@@ -91,6 +91,14 @@ pipeline {
                 }
             }
         }
+		
+		 stage ('Archive jar to Jenkins target') {
+
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    archive 'target/*.jar'
+                }
+            }
 
 stage ('buildInDevelopment'){
 steps{
