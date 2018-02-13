@@ -1,10 +1,12 @@
-pipeline {
+node {
+    def app
 
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package' 
-            }
-        }
+    stage('Clone repository') {
+        checkout scm
+    }
+
+    stage('Build image') {
+       sh 'mvn clean package'
+
     }
 }
