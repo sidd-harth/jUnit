@@ -1,11 +1,9 @@
-<settings>
-	<servers>
-	  <servers>
-	     <server>
-	        <id>nexus-snapshot</id>
-	        <username>admin</username>
-	        <password>admin123</password>
-	     </server>
-	  </servers>
-	</servers>
-</settings>
+<servers>
+  <servers>
+     <server>
+        <id>nexus-snapshot</id>
+        <username>admin</username>
+        <password>admin123</password>
+     </server>
+  </servers>
+</servers>
