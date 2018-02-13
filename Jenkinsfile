@@ -1,4 +1,4 @@
-/* this is working DSL in windows with pipline maven integration plugin
+/* this is working DSL in windows with pipline maven integration plugin -- if didnt work try removing <settings> tag in nexuscongi
 pipeline {
     agent any
 
@@ -33,7 +33,7 @@ pipeline {
 }
 */
 
-/*testing in openshift jenkins*/
+/*testing in openshift jenkins - not able to download artifacts from maven central..failed in last step
 pipeline {
     agent {
               label 'maven'
@@ -66,5 +66,51 @@ pipeline {
                 
             }
         }
+    }
+}
+
+*/
+
+
+// this is working DSL in windows with pipline maven integration plugin -- if didnt work try removing <settings> tag in nexuscongi --
+// deploy to openshift
+pipeline {
+    agent any
+
+    stages {
+        stage ('Compile Stage') {
+
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    bat 'mvn -s nexusconfigurations/nexus.xml clean compile'
+                }
+            }
+        }
+
+        stage ('Testing Stage') {
+
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    bat 'mvn -s nexusconfigurations/nexus.xml test'
+                }
+            }
+        }
+
+
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'apache-maven-3.3.9') {
+                    bat 'mvn -s nexusconfigurations/nexus.xml deploy'
+                }
+            }
+        }
+
+stage 'buildInDevelopment'
+openshiftBuild(namespace: 'jenkinsfdeploy', buildConfig: 'php', showBuildLogs: 'true')
+
+stage 'deployInDevelopment'
+openshiftDeploy(namespace: 'jenkinsfdeploy', deploymentConfig: 'php')
+openshiftScale(namespace: 'jenkinsfdeploy', deploymentConfig: 'php',replicaCount: '2')
+
     }
 }
