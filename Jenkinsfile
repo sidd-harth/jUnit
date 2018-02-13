@@ -84,13 +84,13 @@ pipeline {
         }
 
 
-      /*  stage ('Deployment Stage') {
+       stage ('Deployment Stage') {
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
                     bat 'mvn -s nexusconfigurations/nexus.xml deploy'
                 }
             }
-        }*/
+        }
 		
 		 stage ('Archive jar to Jenkins target') {
 
