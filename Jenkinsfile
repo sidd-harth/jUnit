@@ -105,12 +105,14 @@ pipeline {
             }
         }
 
-stage 'buildInDevelopment'
-openshiftBuild(namespace: 'jenkinsfdeploy', buildConfig: 'php', showBuildLogs: 'true')
+stage ('buildInDevelopment'){
+steps{
+openshiftBuild(namespace: 'jenkinsfdeploy', buildConfig: 'php', showBuildLogs: 'true')}}
 
-stage 'deployInDevelopment'
+stage ('deployInDevelopment'){
+steps{
 openshiftDeploy(namespace: 'jenkinsfdeploy', deploymentConfig: 'php')
-openshiftScale(namespace: 'jenkinsfdeploy', deploymentConfig: 'php',replicaCount: '2')
+openshiftScale(namespace: 'jenkinsfdeploy', deploymentConfig: 'php',replicaCount: '2')}}
 
     }
 }
