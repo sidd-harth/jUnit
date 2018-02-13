@@ -1,4 +1,4 @@
-node {
+node(maven) {
     def app
 
     stage('Clone repository') {
