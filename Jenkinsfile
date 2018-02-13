@@ -42,7 +42,7 @@ pipeline {
 
             steps {
                  
-                    sh 'mvn -s nexusconfigurations/nexus.xml clean compile'
+                    sh "mvn -s nexusconfigurations/nexus.xml clean compile"
                
             }
         }
@@ -51,7 +51,7 @@ pipeline {
 
             steps {
                  
-                    sh 'mvn -s nexusconfigurations/nexus.xml test'
+                    sh "mvn -s nexusconfigurations/nexus.xml test"
                 
             }
         }
@@ -60,7 +60,7 @@ pipeline {
         stage ('Deployment Stage') {
             steps {
                  
-                    sh 'mvn -s nexusconfigurations/nexus.xml deploy'
+                    sh "mvn -s nexusconfigurations/nexus.xml deploy"
                 
             }
         }
