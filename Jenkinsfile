@@ -15,7 +15,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
-                    sh 'mvn test'
+                    bat 'mvn test'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
         stage ('Deployment Stage') {
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
-                    sh 'mvn deploy'
+                    bat 'mvn deploy'
                 }
             }
         }
