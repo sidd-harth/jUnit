@@ -1,27 +1,21 @@
 /* this is working DSL in windows with pipline maven integration plugin -- if didnt work try removing <settings> tag in nexuscongi
 pipeline {
     agent any
-
     stages {
         stage ('Compile Stage') {
-
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
                     bat 'mvn -s nexusconfigurations/nexus.xml clean compile'
                 }
             }
         }
-
         stage ('Testing Stage') {
-
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
                     bat 'mvn -s nexusconfigurations/nexus.xml test'
                 }
             }
         }
-
-
         stage ('Deployment Stage') {
             steps {
                 withMaven(maven : 'apache-maven-3.3.9') {
@@ -38,27 +32,21 @@ pipeline {
     agent {
               label 'maven'
             }
-
     stages {
         stage ('Compile Stage') {
-
             steps {
                  
                     sh "mvn -s nexusconfigurations/nexus.xml clean compile"
                
             }
         }
-
         stage ('Testing Stage') {
-
             steps {
                  
                     sh "mvn -s nexusconfigurations/nexus.xml test"
                 
             }
         }
-
-
         stage ('Deployment Stage') {
             steps {
                  
@@ -68,7 +56,6 @@ pipeline {
         }
     }
 }
-
 */
 
 
@@ -107,12 +94,12 @@ pipeline {
 
 stage ('buildInDevelopment'){
 steps{
-openshiftBuild(namespace: 'jenkinsfdeploy', buildConfig: 'php', showBuildLogs: 'true')}}
+openshiftBuild(namespace: 'jenkinsfdeploy', bldCfg: 'php', showBuildLogs: 'true')}}
 
 stage ('deployInDevelopment'){
 steps{
-openshiftDeploy(namespace: 'jenkinsfdeploy', deploymentConfig: 'php')
-openshiftScale(namespace: 'jenkinsfdeploy', deploymentConfig: 'php',replicaCount: '2')}}
+openshiftDeploy(namespace: 'jenkinsfdeploy', depCfg: 'php')
+openshiftScale(namespace: 'jenkinsfdeploy', depCfg: 'php',replicaCount: '2')}}
 
     }
 }
