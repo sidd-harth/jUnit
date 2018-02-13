@@ -6,7 +6,7 @@
         <password>deployment123</password>
      </server>
      <server>
-        <id>nexus3</id>
+        <id>nexus</id>
         <username>admin</username>
         <password>admin123</password>
      </server>
