@@ -126,14 +126,14 @@ pipeline {
 	    stage('build'){
 	        steps{
 			//sh "rm -rf oc-build && mkdir -p oc-build/deployments"
-            /sh "cp target/student-services-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.war"
+            //sh "cp target/student-services-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.war"
 	        //sh 'oc start-build abc --from-repo=http://localhost:8081/#browse/browse:testRepo:com%2Fin28minutes%2Fspringboot%2Fstudent-//services%2F0.0.1-20180213.202051-5%2Fstudent-services-0.0.1-20180213.202051-5.jar --follow'
 			
 			//mv /path/to/file.old /path/to/file.new
-			sh 'mv target/student-services-0.0.1-SNAPSHOT.jar ROOT.jar'
-			sh 'mkdir deployments'
-			sh 'cp target/ROOT.war deployments'
-			sh 'oc start-build abc --from-dir=/deployments  --follow'
+			sh "mv target/student-services-0.0.1-SNAPSHOT.jar ROOT.jar"
+			sh "cd target && mkdir deployments"
+			sh "cp target/ROOT.war deployments"
+			sh 'oc start-build abc --from-dir=target/deployments  --follow'
 
 			
 	        }
