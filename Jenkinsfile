@@ -130,7 +130,7 @@ pipeline {
 	        //sh 'oc start-build abc --from-repo=http://localhost:8081/#browse/browse:testRepo:com%2Fin28minutes%2Fspringboot%2Fstudent-//services%2F0.0.1-20180213.202051-5%2Fstudent-services-0.0.1-20180213.202051-5.jar --follow'
 	        }
 	    }
-			    stage(start build'){
+			    stage('start build'){
 	        steps{
 			sh 'oc start-build' abc --follow
 	        }
