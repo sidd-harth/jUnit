@@ -138,7 +138,7 @@ pipeline {
   }
   stage('Sonar Code Analysis') {
    steps {
-    sh 'mvn test sonar:sonar -Dsonar.host.url=http://localhost:9000   -Dsonar.login=aab02659e091858dfd99ddace56d44c604390a52'
+    bat 'mvn test sonar:sonar -Dsonar.host.url=http://localhost:9000   -Dsonar.login=aab02659e091858dfd99ddace56d44c604390a52'
     }
    }
 
