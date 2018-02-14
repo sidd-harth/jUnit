@@ -115,7 +115,7 @@ pipeline {
 	    }
 	    stage('new project'){
 	        steps{
-	        sh 'oc new-project jdk67'
+	        sh 'oc new-project jdk68'
 	        }
 	    }
 	    stage('new build'){
@@ -132,7 +132,7 @@ pipeline {
 			//mv /path/to/file.old /path/to/file.new
 			sh "cd target && mv student-services-0.0.1-SNAPSHOT.jar ROOT.jar"
 			sh "cd target && mkdir deployments"
-			sh "cp target/ROOT.war deployments"
+			sh "cp target/ROOT.jar deployments"
 			sh 'oc start-build abc --from-dir=target/deployments  --follow'
 
 			
