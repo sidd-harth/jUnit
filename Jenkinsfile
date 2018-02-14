@@ -108,6 +108,28 @@ pipeline {
 						input message: 'Do you want to Approve?'
 					}}
 				}
+				stage('login'){
+	        steps{
+	        sh 'oc login https://192.168.99.100:8443 --token=G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA --insecure-skip-tls-verify'
+	        }
+	    }
+	    stage('new project'){
+	        steps{
+	        sh 'oc new-project jdk5'
+	        }
+	    }
+	    stage('new build'){
+	        steps{
+	        sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
+	        }
+	    }	 
+	    stage('start build'){
+	        steps{
+	        sh 'oc start-build abc --from-dir=/job/jnuit/lastSuccessfulBuild/artifact/com/in28minutes/springboot/student-services/0.0.1-SNAPSHOT/student-services-0.0.1-SNAPSHOT.jar --follow'
+	        }
+	    }
+				}
+				}
 /*
 stage ('buildInDevelopment'){
 steps{
@@ -118,7 +140,7 @@ steps{
 openshiftDeploy(namespace: 'jenkinsfdeploy', depCfg: 'php')
 openshiftScale(namespace: 'jenkinsfdeploy', depCfg: 'php',replicaCount: '2')}}*/
 
-
+/*
 //testing oc cli
 stage('Create Image Builder') {
                 when {
@@ -157,4 +179,4 @@ stage('Create Image Builder') {
 
 
     }
-}
+}*/
