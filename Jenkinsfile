@@ -139,7 +139,7 @@ pipeline {
 			sh 'oc expose svc/abc'
 	        }
 	    }
-			oc new-app 
+			
 				}
 				}
 /*
