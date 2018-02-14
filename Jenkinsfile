@@ -138,8 +138,9 @@ pipeline {
   }
   stage('Sonar Code Analysis') {
    steps {
-    bat 'mvn test sonar:sonar -Dsonar.host.url=http://localhost:9000   -Dsonar.login=aab02659e091858dfd99ddace56d44c604390a52'
-    }
+	   withMaven(maven: 'apache-maven-3.3.9') {
+    bat 'mvn -s nexusconfigurations/nexus.xml test sonar:sonar -Dsonar.host.url=http://localhost:9000   -Dsonar.login=aab02659e091858dfd99ddace56d44c604390a52'
+   }}
    }
 
   stage('Deployment Stage') {
