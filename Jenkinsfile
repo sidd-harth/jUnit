@@ -115,7 +115,7 @@ pipeline {
 	    }
 	    stage('new project'){
 	        steps{
-	        sh 'oc new-project jdk5'
+	        sh 'oc new-project jdk6'
 	        }
 	    }
 	    stage('new build'){
@@ -125,7 +125,7 @@ pipeline {
 	    }	 
 	    stage('start build'){
 	        steps{
-	        sh 'oc start-build abc --from-dir=/job/jnuit/lastSuccessfulBuild/artifact/com/in28minutes/springboot/student-services/0.0.1-SNAPSHOT/student-services-0.0.1-SNAPSHOT.jar --follow'
+	        sh 'oc start-build abc --from-repo=http://localhost:8081/#browse/browse:testRepo:com%2Fin28minutes%2Fspringboot%2Fstudent-services%2F0.0.1-20180213.202051-5%2Fstudent-services-0.0.1-20180213.202051-5.jar --follow'
 	        }
 	    }
 				}
