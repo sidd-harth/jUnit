@@ -132,7 +132,7 @@ pipeline {
 	    }
 			    stage('start builds'){
 	        steps{
-			sh 'oc start-build' abc --follow
+			sh 'oc start-build abc --follow'
 	        }
 	    }
 				}
