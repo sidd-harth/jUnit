@@ -123,7 +123,7 @@ pipeline {
 	        sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
 	        }
 	    }	 
-	    stage( build'){
+	    stage('build'){
 	        steps{
 			sh "rm -rf oc-build && mkdir -p oc-build/deployments"
             sh "cp target/student-services-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.war"
