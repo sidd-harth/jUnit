@@ -115,7 +115,7 @@ pipeline {
 	    }
 	    stage('new project'){
 	        steps{
-	        sh 'oc new-project jdk69'
+	        sh 'oc new-project jdk70'
 	        }
 	    }
 	    stage('new build'){
@@ -145,6 +145,9 @@ pipeline {
 			sh 'oc expose svc/abc'
 	        }
 	    }
+stage ('scaling'){
+steps{
+openshiftScale(namespace: 'jdk70', depCfg: 'abc',replicaCount: '7')}}
 			
 				}
 				}
