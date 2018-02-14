@@ -112,7 +112,7 @@ stage('Create Image Builder') {
 }*/
 
 
-/* build in jenkns & deploy in openshift using oc cmds is successfull
+// build in jenkns & deploy in openshift using oc cmds is successfull
 // this is working DSL in windows with pipline maven integration plugin -- if didnt work try removing <settings> tag in nexuscongi --
 // deploy to openshift
 pipeline {
@@ -136,7 +136,11 @@ pipeline {
     }
    }
   }
-
+  stage('Sonar Code Analysis') {
+   steps {
+    sh 'mvn test sonar:sonar -Dsonar.host.url=http://localhost:9000   -Dsonar.login=aab02659e091858dfd99ddace56d44c604390a52'
+    }
+   }
 
   stage('Deployment Stage') {
    steps {
@@ -204,8 +208,9 @@ pipeline {
   }
 
  }
-} */
+} 
 
+/*
 // testing cd jenkins code
 // this is working DSL in windows with pipline maven integration plugin -- if didnt work try removing <settings> tag in nexuscongi --
 // deploy to openshift
@@ -258,12 +263,16 @@ pipeline {
     }
    }
   }
+
+  
+  
+  
   
                 stage('Create Image Builder') {
                 when {
                   expression {
                     openshift.withCluster('https://192.168.99.100:8443','G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA') {
-                      openshift.withProject(cdcd) {
+                      openshift.withProject('cdcd') {
                         return !openshift.selector("bc", "tasks").exists();
                       }
                     }
@@ -272,7 +281,7 @@ pipeline {
                 steps {
                   script {
                     openshift.withCluster('https://192.168.99.100:8443','G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA') {
-                      openshift.withProject(cdcd) {
+                      openshift.withProject('cdcd') {
                         openshift.newBuild("--name=tasks", "--image-stream=redhat-openjdk18-openshift", "--binary=true")
                       }
                     }
@@ -330,7 +339,7 @@ pipeline {
                     }
                   }
                 }
-              }
+              } 
 
  }
-}
+}*/
