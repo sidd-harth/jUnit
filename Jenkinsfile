@@ -115,7 +115,7 @@ pipeline {
 	    }
 	    stage('new project'){
 	        steps{
-	        sh 'oc new-project jdk62'
+	        sh 'oc new-project jdk63'
 	        }
 	    }
 	    stage('new build'){
