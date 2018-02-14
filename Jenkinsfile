@@ -115,7 +115,7 @@ pipeline {
 	    }
 	    stage('new project'){
 	        steps{
-	        sh 'oc new-project jdk63'
+	        sh 'oc new-project jdk64'
 	        }
 	    }
 	    stage('new build'){
@@ -133,7 +133,13 @@ pipeline {
 			
 	        }
 	    }
-			
+		stage('deploy expose'){
+	        steps{
+	        sh 'oc new-app abc'
+			sh 'oc expose svc/abc'
+	        }
+	    }
+			oc new-app 
 				}
 				}
 /*
