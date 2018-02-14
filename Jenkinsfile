@@ -62,95 +62,99 @@ pipeline {
 // this is working DSL in windows with pipline maven integration plugin -- if didnt work try removing <settings> tag in nexuscongi --
 // deploy to openshift
 pipeline {
-    agent any
+ agent any
 
-    stages {
-        stage ('Compile Stage') {
+ stages {
+  stage('Compile Stage') {
 
-            steps {
-                withMaven(maven : 'apache-maven-3.3.9') {
-                    bat 'mvn -s nexusconfigurations/nexus.xml clean compile'
-                }
-            }
-        }
+   steps {
+    withMaven(maven: 'apache-maven-3.3.9') {
+     bat 'mvn -s nexusconfigurations/nexus.xml clean compile'
+    }
+   }
+  }
 
-        stage ('Testing Stage') {
+  stage('Testing Stage') {
 
-            steps {
-                withMaven(maven : 'apache-maven-3.3.9') {
-                    bat 'mvn -s nexusconfigurations/nexus.xml test'
-                }
-            }
-        }
+   steps {
+    withMaven(maven: 'apache-maven-3.3.9') {
+     bat 'mvn -s nexusconfigurations/nexus.xml test'
+    }
+   }
+  }
 
 
-       stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'apache-maven-3.3.9') {
-                    bat 'mvn -s nexusconfigurations/nexus.xml deploy'
-                }
-            }
-        }
-		
-		 stage ('Archive jar to Jenkins target') {
+  stage('Deployment Stage') {
+   steps {
+    withMaven(maven: 'apache-maven-3.3.9') {
+     bat 'mvn -s nexusconfigurations/nexus.xml deploy'
+    }
+   }
+  }
 
-            steps {
-                withMaven(maven : 'apache-maven-3.3.9') {
-                    archive 'target/*.jar'
-                }
-            }}
-			
-			
-			
-			stage('Approve to Deploy on Openshift') {
-					steps {
-					timeout(time: 2, unit: 'DAYS') {
-						input message: 'Do you want to Approve?'
-					}}
-				}
-				stage('login'){
-	        steps{
-	        sh 'oc login https://192.168.99.100:8443 --token=G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA --insecure-skip-tls-verify'
-	        }
-	    }
-	    stage('new project'){
-	        steps{
-	        sh 'oc new-project jdk70'
-	        }
-	    }
-	    stage('new build'){
-	        steps{
-	        sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
-	        }
-	    }	 
-	    stage('build'){
-	        steps{
-			sh "rm -rf oc-build && mkdir -p oc-build/deployments"
-            sh "cp target/student-services-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.jar"
-			
-			sh 'oc start-build abc --from-dir=oc-build --wait=true  --follow' 
-			
-			//mv /path/to/file.old /path/to/file.new
-			/*sh "cd target && mv student-services-0.0.1-SNAPSHOT.jar ROOT.jar"
-			sh "cd target && mkdir deployments"
-			sh "cp target/ROOT.jar deployments"
-			sh 'oc start-build abc --from-dir=target/deployments  --follow' */
+  stage('Archive jar to Jenkins target') {
 
-			
-	        }
-	    }
-		stage('deploy expose'){
-	        steps{
-	        sh 'oc new-app abc'
-			sh 'oc expose svc/abc'
-	        }
-	    }
-stage ('scaling'){
-steps{
-openshiftScale(namespace: 'jdk70', depCfg: 'abc',replicaCount: '7')}}
-			
-				}
-				}
+   steps {
+    withMaven(maven: 'apache-maven-3.3.9') {
+     archive 'target/*.jar'
+    }
+   }
+  }
+
+
+
+  stage('Approve to Deploy on Openshift') {
+   steps {
+    timeout(time: 2, unit: 'DAYS') {
+     input message: 'Do you want to Approve?'
+    }
+   }
+  }
+  stage('login') {
+   steps {
+    sh 'oc login https://192.168.99.100:8443 --token=G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA --insecure-skip-tls-verify'
+   }
+  }
+  stage('new project') {
+   steps {
+    sh 'oc new-project jdk71'
+   }
+  }
+  stage('new build') {
+   steps {
+    sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
+   }
+  }
+  stage('build') {
+   steps {
+    sh "rm -rf oc-build && mkdir -p oc-build/deployments"
+    sh "cp target/student-services-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.jar"
+
+    sh 'oc start-build abc --from-dir=oc-build --wait=true  --follow'
+
+    //mv /path/to/file.old /path/to/file.new
+    /*sh "cd target && mv student-services-0.0.1-SNAPSHOT.jar ROOT.jar"
+    sh "cd target && mkdir deployments"
+    sh "cp target/ROOT.jar deployments"
+    sh 'oc start-build abc --from-dir=target/deployments  --follow' */
+
+
+   }
+  }
+  stage('deploy expose') {
+   steps {
+    sh 'oc new-app abc'
+    sh 'oc expose svc/abc'
+   }
+  }
+  stage('scaling') {
+   steps {
+    sh ' oc scale --replicas=10 dc abc'
+   }
+  }
+
+ }
+}
 /*
 stage ('buildInDevelopment'){
 steps{
